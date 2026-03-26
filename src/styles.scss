@@ -1,0 +1,141 @@
+/* Global design tokens: elegant purple + black theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+	/* Color palette */
+	--color-bg: #09070d;
+	--color-surface: #13101a;
+	--color-surface-soft: #1b1625;
+	--color-border: #2a2138;
+
+	--color-primary: #8b5cf6;
+	--color-primary-hover: #9f73ff;
+	--color-primary-active: #7646e8;
+	--color-primary-contrast: #f7f1ff;
+
+	--color-accent: #b68cff;
+	--color-text: #efe9ff;
+	--color-text-muted: #bcaed8;
+
+	--color-success: #22c55e;
+	--color-warning: #f59e0b;
+	--color-danger: #ef4444;
+	--color-info: #60a5fa;
+
+	/* Typography */
+	--font-family-base: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--font-family-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+
+	--font-size-xs: 0.75rem;
+	--font-size-sm: 0.875rem;
+	--font-size-md: 1rem;
+	--font-size-lg: 1.125rem;
+	--font-size-xl: 1.375rem;
+	--font-size-2xl: 1.75rem;
+	--font-size-3xl: 2.25rem;
+
+	--line-height-tight: 1.2;
+	--line-height-base: 1.5;
+	--line-height-relaxed: 1.75;
+
+	--font-weight-regular: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	/* Spacing scale */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.25rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+	--space-10: 2.5rem;
+	--space-12: 3rem;
+	--space-16: 4rem;
+
+	/* Radius, shadows and motion */
+	--radius-sm: 0.5rem;
+	--radius-md: 0.75rem;
+	--radius-lg: 1rem;
+	--radius-pill: 999px;
+
+	--shadow-elev-1: 0 4px 12px rgba(0, 0, 0, 0.35);
+	--shadow-elev-2: 0 12px 28px rgba(0, 0, 0, 0.45);
+	--shadow-glow-primary: 0 0 0 1px rgba(139, 92, 246, 0.35), 0 10px 35px rgba(139, 92, 246, 0.25);
+
+	--transition-fast: 160ms ease;
+	--transition-base: 240ms ease;
+}
+
+/* SCSS aliases so component styles can also consume tokens as variables */
+$color-bg: var(--color-bg);
+$color-surface: var(--color-surface);
+$color-surface-soft: var(--color-surface-soft);
+$color-border: var(--color-border);
+$color-primary: var(--color-primary);
+$color-primary-hover: var(--color-primary-hover);
+$color-primary-active: var(--color-primary-active);
+$color-primary-contrast: var(--color-primary-contrast);
+$color-accent: var(--color-accent);
+$color-text: var(--color-text);
+$color-text-muted: var(--color-text-muted);
+
+$font-family-base: var(--font-family-base);
+$font-family-display: var(--font-family-display);
+
+$space-1: var(--space-1);
+$space-2: var(--space-2);
+$space-3: var(--space-3);
+$space-4: var(--space-4);
+$space-5: var(--space-5);
+$space-6: var(--space-6);
+$space-8: var(--space-8);
+$space-10: var(--space-10);
+$space-12: var(--space-12);
+$space-16: var(--space-16);
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+}
+
+body {
+	font-family: var(--font-family-base);
+	font-size: var(--font-size-md);
+	line-height: var(--line-height-base);
+	color: var(--color-text);
+	background:
+		radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.22), transparent 40%),
+		radial-gradient(circle at 90% 15%, rgba(182, 140, 255, 0.16), transparent 35%),
+		linear-gradient(180deg, #0a0810 0%, #07060b 100%);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-family-display);
+	line-height: var(--line-height-tight);
+	margin-top: 0;
+}
+
+a {
+	color: var(--color-accent);
+	text-decoration: none;
+	transition: color var(--transition-fast);
+}
+
+a:hover {
+	color: var(--color-primary-hover);
+}
