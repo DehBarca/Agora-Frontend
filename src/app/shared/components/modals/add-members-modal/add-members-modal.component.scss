@@ -1,0 +1,56 @@
+@use "../../../../../colors" as *;
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+    background: $color-bg-main;
+    color: $color-text-main;
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    padding: 2rem 1.5rem;
+    width: 300px;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid $color-border;
+}
+
+button {
+    background-color: #4b5efc; /* Color principal */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background-color: #3a4bdc; /* Color más oscuro al pasar el mouse */
+    }
+
+    &:active {
+        transform: scale(0.98); /* Efecto de clic */
+    }
+
+    &:disabled {
+        background-color: #ccc; /* Color para estado deshabilitado */
+        cursor: not-allowed;
+    }
+}

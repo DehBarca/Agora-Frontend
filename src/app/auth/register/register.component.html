@@ -1,115 +1,156 @@
-<div class="register-container">
-  <div class="register-card">
-    <!-- Header -->
-    <div class="register-header">
-      <h1>Crear Cuenta</h1>
-      <p>Únete a Agora y comienza tu viaje</p>
+<!--
+  HTML ACTUALIZADO:
+  - Se cambia 'register-container' por 'login-container' para reutilizar el estilo.
+  - Se añade la estructura de 2 columnas: 'card-content', 'form-column' y 'welcome-column'.
+  - El botón de regresar se mueve dentro de 'form-column'.
+  - El 'card-header' se reemplaza por 'form-header' para coincidir con el login.
+  - Se añade la 'welcome-column' copiada del login.
+-->
+<div class="login-container">
+    <!-- Reutilizamos el contenedor del login -->
+    <div class="login-card glass-card">
+        <!-- Reutilizamos la tarjeta del login -->
+        <div class="card-content">
+            <!-- Columna del formulario -->
+            <div class="form-column">
+                <!-- Botón de Regresar (movido aquí) -->
+                <a
+                    routerLink="/login"
+                    class="back-button"
+                    mat-icon-button
+                    aria-label="Regresar al login"
+                >
+                    <mat-icon>arrow_back_ios_new</mat-icon>
+                </a>
+
+                <!-- Cabecera del formulario (estilo login) -->
+                <div class="form-header">
+                    <h1>Agora</h1>
+                    <p>Crea tu cuenta para empezar</p>
+                </div>
+
+                <!-- Formulario Reactivo -->
+                <form
+                    class="register-form"
+                    [formGroup]="registerForm"
+                    (ngSubmit)="onSubmit()"
+                >
+                    <mat-form-field>
+                        <mat-label>Nombre completo</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            placeholder="Tu nombre"
+                            formControlName="name"
+                        />
+                        <mat-error
+                            *ngIf="
+                                registerForm.get('name')?.hasError('required')
+                            "
+                            >Tu nombre es requerido</mat-error
+                        >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Correo electrónico</mat-label>
+                        <input
+                            matInput
+                            type="email"
+                            placeholder="usuario@ejemplo.com"
+                            formControlName="email"
+                        />
+                        <mat-error
+                            *ngIf="
+                                registerForm.get('email')?.hasError('required')
+                            "
+                            >El correo es requerido</mat-error
+                        >
+                        <mat-error
+                            *ngIf="registerForm.get('email')?.hasError('email')"
+                            >Correo no válido</mat-error
+                        >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Contraseña</mat-label>
+                        <input
+                            matInput
+                            type="password"
+                            placeholder="Mínimo 8 caracteres"
+                            formControlName="password"
+                        />
+                        <mat-error
+                            *ngIf="
+                                registerForm
+                                    .get('password')
+                                    ?.hasError('required')
+                            "
+                            >La contraseña es requerida</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                registerForm
+                                    .get('password')
+                                    ?.hasError('minlength')
+                            "
+                            >Mínimo 8 caracteres</mat-error
+                        >
+                    </mat-form-field>
+
+                    <!-- Mensaje de Error -->
+                    <div *ngIf="errorMessage" class="error-message">
+                        {{ errorMessage }}
+                    </div>
+
+                    <!-- Botón de Submit -->
+                    <button
+                        mat-raised-button
+                        class="accent-button register-button"
+                        type="submit"
+                        [disabled]="registerForm.invalid || isLoading"
+                    >
+                        <span *ngIf="!isLoading">Crear Cuenta</span>
+                        <mat-spinner
+                            *ngIf="isLoading"
+                            [diameter]="30"
+                        ></mat-spinner>
+                    </button>
+                </form>
+
+                <div class="divider">o registrarse con</div>
+
+                <!-- Botones Sociales -->
+                <div class="social-buttons">
+                    <asl-google-signin-button
+                        type="standard"
+                        size="large"
+                        theme="filled_black"
+                        text="signup_with"
+                        shape="circle"
+                    >
+                    </asl-google-signin-button>
+                </div>
+
+                <!-- Link de Login (clase 'register-link' para estilo) -->
+                <p class="register-link">
+                    ¿Ya tienes una cuenta?
+                    <a routerLink="/login" class="accent-link">Inicia sesión</a>
+                </p>
+            </div>
+
+            <!-- Columna de bienvenida (IDÉNTICA A LA DE LOGIN) -->
+            <div class="welcome-column">
+                <img
+                    src="https://placehold.co/150x150/111827/533483?text=Agora&font=poppins"
+                    alt="Agora Logo"
+                    class="welcome-logo"
+                />
+                <h2>Conecta y Colabora sin Límites</h2>
+                <p>
+                    La plataforma todo-en-uno para comunicación de equipos,
+                    gestión de proyectos y productividad.
+                </p>
+            </div>
+        </div>
     </div>
-
-    <!-- Form -->
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
-      <!-- Nickname Input -->
-      <div class="form-group">
-        <label for="nickname" class="form-label">Usuario (Nickname)</label>
-        <input
-          id="nickname"
-          type="text"
-          class="form-input"
-          formControlName="nickname"
-          placeholder="Tu nombre de usuario"
-          [class.is-invalid]="submitted && f['nickname'].errors"
-        />
-        @if (submitted && f['nickname'].errors) {
-          <span class="error-message">
-            @if (f['nickname'].errors['required']) {
-              El usuario es requerido
-            } @else if (f['nickname'].errors['minlength']) {
-              Mínimo 3 caracteres
-            }
-          </span>
-        }
-      </div>
-
-      <!-- Email Input -->
-      <div class="form-group">
-        <label for="email" class="form-label">Correo Electrónico</label>
-        <input
-          id="email"
-          type="email"
-          class="form-input"
-          formControlName="email"
-          placeholder="tu@email.com"
-          [class.is-invalid]="submitted && f['email'].errors"
-        />
-        @if (submitted && f['email'].errors) {
-          <span class="error-message">
-            @if (f['email'].errors['required']) {
-              El correo es requerido
-            } @else if (f['email'].errors['email']) {
-              Correo inválido
-            }
-          </span>
-        }
-      </div>
-
-      <!-- Password Input -->
-      <div class="form-group">
-        <label for="password" class="form-label">Contraseña</label>
-        <input
-          id="password"
-          type="password"
-          class="form-input"
-          formControlName="password"
-          placeholder="Mínimo 8 caracteres"
-          [class.is-invalid]="submitted && f['password'].errors"
-        />
-        @if (submitted && f['password'].errors) {
-          <span class="error-message">
-            @if (f['password'].errors['required']) {
-              La contraseña es requerida
-            } @else if (f['password'].errors['minlength']) {
-              Mínimo 8 caracteres
-            }
-          </span>
-        }
-      </div>
-
-      <!-- Confirm Password Input -->
-      <div class="form-group">
-        <label for="confirmPassword" class="form-label">Repetir Contraseña</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          class="form-input"
-          formControlName="confirmPassword"
-          placeholder="Repite tu contraseña"
-          [class.is-invalid]="submitted && !isPasswordMatch()"
-        />
-        @if (submitted && !isPasswordMatch()) {
-          <span class="error-message">Las contraseñas no coinciden</span>
-        }
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-submit" [disabled]="isLoading">
-        @if (isLoading) {
-          <span class="spinner"></span>
-          Registrando...
-        } @else {
-          Crear Cuenta
-        }
-      </button>
-    </form>
-
-    <!-- Footer -->
-    <div class="register-footer">
-      <p>
-        ¿Ya tienes cuenta?
-        <a href="/login" class="link-login">Inicia sesión aquí</a>
-      </p>
-    </div>
-  </div>
-
-  <!-- Decorative Background Element -->
-  <div class="background-glow"></div>
 </div>

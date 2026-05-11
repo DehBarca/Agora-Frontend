@@ -1,0 +1,249 @@
+<nav class="navbar">
+    <div class="navbar-brand">
+        <h1>Agora</h1>
+    </div>
+    <div class="navbar-menu">
+        <button
+            mat-icon-button
+            class="nav-icon"
+            (click)="openCalendarModal()"
+            matTooltip="Calendario"
+        >
+            <mat-icon>calendar_month</mat-icon>
+        </button>
+
+        <!-- === BOTÓN DE NOTIFICACIONES === -->
+        <div
+            class="dropdown-container"
+            (appClickOutside)="closeNotifications()"
+        >
+            <button
+                mat-icon-button
+                class="nav-icon relative"
+                (click)="toggleNotifications()"
+                [class.active]="isNotificationsOpen"
+            >
+                <mat-icon>notifications</mat-icon>
+                @if (notifications.length > 0) {
+                    <span class="badge">{{ notifications.length }}</span>
+                }
+            </button>
+
+            <!-- Panel de Notificaciones -->
+            @if (isNotificationsOpen) {
+                <div class="notifications-dropdown glass-card">
+                    <div class="dropdown-header">
+                        <span>Notificaciones</span>
+                        @if (notifications.length > 0) {
+                            <button class="mark-read" (click)="markAsRead()">
+                                Limpiar todo
+                            </button>
+                        }
+                    </div>
+
+                    <div class="notifications-list">
+                        @for (
+                            notification of notifications;
+                            track notification._id
+                        ) {
+                            <!-- Tipo: Mensaje -->
+                            @if (
+                                notification.type === NotificationType.MESSAGE
+                            ) {
+                                @if (
+                                    notification.data.messageType ===
+                                    MessageType.TEXT
+                                ) {
+                                    <div class="notification-item message">
+                                        <div class="notif-avatar">
+                                            <img
+                                                [src]="notification.data.avatar"
+                                                alt="Avatar"
+                                            />
+                                            <div class="icon-badge msg">
+                                                <mat-icon>chat</mat-icon>
+                                            </div>
+                                        </div>
+                                        <div class="notif-content">
+                                            <p class="title">
+                                                <strong>{{
+                                                    notification.data.username
+                                                }}</strong>
+                                            </p>
+                                            <p class="text">
+                                                {{
+                                                    notification.data.text
+                                                        | slice: 0 : 10
+                                                }}
+                                            </p>
+                                            <span class="time">{{
+                                                notification.data.timestamp
+                                                    | date: "shortTime"
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                } @else if (
+                                    notification.data.messageType ===
+                                    MessageType.IMAGE
+                                ) {
+                                    Image
+                                }
+                            }
+
+                            <!-- Tipo: Solicitud de Amistad -->
+                            @else if (
+                                notification.type ===
+                                NotificationType.FRIEND_REQUEST
+                            ) {
+                                <div class="notification-item request">
+                                    <div class="notif-avatar">
+                                        <img
+                                            [src]="
+                                                notification.data.friendId
+                                                    ?.profileImgUrl ||
+                                                'https://placehold.co/40x40/533483/ffffff?text=U'
+                                            "
+                                            alt="Avatar"
+                                        />
+                                        <div class="icon-badge">
+                                            <mat-icon>person_add</mat-icon>
+                                        </div>
+                                    </div>
+                                    <div class="notif-content">
+                                        <p class="message">
+                                            <strong>{{
+                                                notification.data.userId
+                                                    ?.username || "Usuario"
+                                            }}</strong>
+                                            quiere ser tu amigo.
+                                        </p>
+                                    </div>
+                                </div>
+                            } @else if (
+                                notification.type ===
+                                NotificationType.FRIEND_REQUEST_ACCEPTED
+                            ) {
+                                <div class="notification-item request">
+                                    <div class="notif-avatar">
+                                        <img
+                                            [src]="
+                                                notification.data.friendId
+                                                    ?.profileImgUrl ||
+                                                'https://placehold.co/40x40/533483/ffffff?text=U'
+                                            "
+                                            alt="Avatar"
+                                        />
+                                        <div class="icon-badge">
+                                            <mat-icon>person_add</mat-icon>
+                                        </div>
+                                    </div>
+                                    <div class="notif-content">
+                                        <p class="message">
+                                            <strong>{{
+                                                notification.data.userId
+                                                    ?.username || "Usuario"
+                                            }}</strong>
+                                            aceptó tu solicitud.
+                                        </p>
+                                    </div>
+                                </div>
+
+                            } @else if (
+                                notification.type ===
+                                NotificationType.ADDED_TO_GROUP
+                            ) {
+                                <!-- Revisar si es un grupo de community -->
+                                <div class="notification-item request">
+                                    <div class="notif-avatar">
+                                        <img
+                                            [src]="
+                                                notification.data.groupImgUrl ||
+                                                'https://placehold.co/40x40/533483/ffffff?text=U'
+                                            "
+                                            alt="Avatar"
+                                        />
+                                        <div class="icon-badge">
+                                            <mat-icon>person_add</mat-icon>
+                                        </div>
+                                    </div>
+                                    <div class="notif-content">
+                                        <p class="message">
+                                            Fuiste agregado al grupo
+                                            <strong>{{
+                                                notification.data.topic ||
+                                                    "Grupo"
+                                            }}</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        } @empty {
+                            <div class="empty-state">
+                                <mat-icon>notifications_off</mat-icon>
+                                <p>No tienes notificaciones nuevas</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Botón de Configuración -->
+        <div class="dropdown-container" (appClickOutside)="closeSettings()">
+            <button
+                mat-icon-button
+                class="nav-icon"
+                (click)="toggleSettings()"
+                [class.active]="isSettingsOpen"
+            >
+                <mat-icon>settings</mat-icon>
+            </button>
+
+            @if (isSettingsOpen) {
+                <div class="settings-dropdown glass-card">
+                    <div class="dropdown-header">Configuración</div>
+                    <ul>
+                        <li (click)="handleSettingClick('Cuenta')">
+                            <mat-icon>person</mat-icon>
+                            <span>Cuenta</span>
+                        </li>
+                        <li (click)="handleSettingClick('Apariencia')">
+                            <mat-icon>palette</mat-icon>
+                            <span>Apariencia</span>
+                        </li>
+                        <li (click)="handleSettingClick('Notificaciones')">
+                            <mat-icon>notifications_active</mat-icon>
+                            <span>Notificaciones</span>
+                        </li>
+                        <li (click)="handleSettingClick('Idioma')">
+                            <mat-icon>language</mat-icon>
+                            <span>Idioma</span>
+                        </li>
+                        <!-- Botón de Cerrar Sesión REAL -->
+                        <li class="danger" (click)="handleLogout()">
+                            <mat-icon>logout</mat-icon>
+                            <span>Cerrar Sesión</span>
+                        </li>
+                    </ul>
+                </div>
+            }
+        </div>
+
+        <div class="user-profile" (click)="openMyuserModal()">
+            <div class="avatar-container">
+                <img
+                    [src]="
+                        user.profileImgUrl ||
+                        'https://placehold.co/40x40/533483/ffffff?text=U'
+                    "
+                    alt="Usuario"
+                    class="profile-pic"
+                />
+                <span
+                    class="status-indicator"
+                    [ngClass]="user.status || 'offline'"
+                ></span>
+            </div>
+        </div>
+    </div>
+</nav>

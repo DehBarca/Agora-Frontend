@@ -1,0 +1,61 @@
+@use "../../../colors" as *;
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.header-chat {
+    width: 100%;
+    height: 70px;
+    border-bottom: 1px solid $color-border;
+    padding: 0.5rem 1rem;
+    z-index: 2;
+    background: rgba($color-bg-card, 0.1);
+    color: $color-text-main;
+}
+
+.messages-chat {
+    width: 100%;
+    height: calc(100% - 150px);
+    flex: 1 1 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: $color-text-secondary;    
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $color-border;
+        border-radius: 3px;
+    }
+}
+
+
+.input-chat {
+    width: 100%;
+    height: 100px;
+    border-top: 1px solid $color-border;
+    padding: 0.5rem 1rem;
+    z-index: 2;
+    background: rgba($color-bg-card, 0.1);
+    color: $color-text-main;
+}
+
+.aside-info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100vh;
+    background: $color-bg-card;
+    border-left: 1px solid $color-border;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.12);
+    z-index: 10;
+    overflow-y: auto;
+    color: $color-text-secondary;
+}

@@ -1,0 +1,13 @@
+FROM node:20-bookworm-slim
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+COPY . .
+
+EXPOSE 4200
+
+CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "2000"]

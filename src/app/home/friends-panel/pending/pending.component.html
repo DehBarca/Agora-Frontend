@@ -1,0 +1,27 @@
+<ul>
+    @for(fr of friendRequests; track fr.friendId){
+    <li>
+        <div class="avatar-container">
+            @if(fr.userId.profileImgUrl) {
+            <img [src]="fr.userId.profileImgUrl" alt="avatar" class="avatar-img" />
+            } @else {
+            <img
+                [src]="
+                    'https://placehold.co/48x48/533483/ffffff?text=' +
+                    fr.userId.username.charAt(0).toUpperCase()
+                "
+                alt="avatar"
+                class="avatar-img"
+            />
+            }
+        </div>
+        <div class="user-info">
+            <span class="user-name">{{ fr.userId.username }}</span>
+            <span class="user-email">{{ fr.userId.email }}</span>
+        </div>
+        <button (click)="acceptFriendRequest(fr._id!)">Aceptar</button>
+    </li>
+    } @empty {
+    <li>No users found</li>
+    }
+</ul>

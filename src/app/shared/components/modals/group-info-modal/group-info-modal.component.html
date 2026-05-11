@@ -1,0 +1,97 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <article class="modal-content" (click)="$event.stopPropagation()">
+        <section class="group-info">
+            <div class="group-image-container">
+                <img
+                    [src]="group.groupImgUrl"
+                    alt="Group image"
+                    class="group-image"
+                />
+                @if(myGroupMember.role === 'admin'){
+                <label class="edit-groupImg-btn">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        (change)="editGroupImage($event)"
+                        hidden
+                    />
+                    <mat-icon>edit</mat-icon>
+                </label>
+                }
+            </div>
+
+            <div class="topic-edit-container" [class.editing]="editingTopic">
+                @if(!editingTopic){
+                <h2
+                    class="topic-display"
+                    (mouseenter)="hoverTopic = true"
+                    (mouseleave)="hoverTopic = false"
+                    (click)="
+                        myGroupMember.role === 'admin' && enableTopicEdit()
+                    "
+                    [class.hovered]="
+                        myGroupMember.role === 'admin' && hoverTopic
+                    "
+                >
+                    {{ group.topic }}
+                    @if(myGroupMember.role === 'admin' && hoverTopic){
+                    <mat-icon class="edit-icon">edit</mat-icon>
+                    } @if(isTopicLoading){
+                    <img
+                        src="assets/loading.gif"
+                        class="topic-loader"
+                        alt="Loading"
+                    />
+                    } @if(isTopicSuccess){
+                    <mat-icon class="topic-succes">check_circle</mat-icon>
+                    }
+                </h2>
+                } @else{
+                <input
+                    class="topic-input"
+                    [(ngModel)]="newTopic"
+                    (blur)="submitTopicEdit()"
+                    (keydown.enter)="submitTopicEdit()"
+                    autofocus
+                />
+                }
+            </div>
+
+            <p class="group-description">
+                {{ group.description || "Add group description" }}
+            </p>
+        </section>
+        <h1>Members</h1>
+        <button (click)="openAddMembers($event)">Add member</button>
+        <section class="group-members">
+            <ul>
+                @for(member of groupMembers; track member._id){
+                <li (click)="openMemberOptions($event, member)">
+                    <img [src]="member.userId.profileImgUrl" alt="User image" />
+                    <h2 class="member-username">
+                        {{ member.userId.username }}
+                    </h2>
+                    @if(member.role === 'admin'){
+                    <div class="admin-card">Admin</div>
+                    }
+                </li>
+                }
+            </ul>
+        </section>
+    </article>
+</div>
+@if(isMemberGroupOptionsOpen){
+    <!-- Aqui no usaremos el modalsService nomás porque es muy pequeño y simple -->
+<app-member-group-options-modal
+    [position]="memberOptionsPosition"
+    [member]="selectedMember!"
+    [groupId]="groupId"
+    (close)="closeMemberOptions($event)"
+></app-member-group-options-modal>
+} @if(isAddMembersOpen){
+<app-add-members-modal
+    [groupId]="group._id!"
+    [groupMembers]="groupMembers"
+    (newGroupMembers)="onNewGroupMembers()"
+></app-add-members-modal>
+}

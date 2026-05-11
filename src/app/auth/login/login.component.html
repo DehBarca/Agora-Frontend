@@ -1,0 +1,90 @@
+<div class="login-container">
+    <div class="login-card glass-card">
+        <div class="card-content">
+            <div class="form-column">
+                <div class="form-header">
+                    <h1>Agora</h1>
+                    <p>Bienvenido de nuevo!</p>
+                </div>
+
+                <form class="login-form" (ngSubmit)="onLogin()">
+                    <!-- Mensaje de error -->
+                    @if (errorMessage) {
+                        <div class="alert alert-error">
+                            <mat-icon>error</mat-icon>
+                            {{ errorMessage }}
+                        </div>
+                    }
+
+                    <mat-form-field>
+                        <mat-label>Correo electrónico</mat-label>
+                        <input
+                            matInput
+                            type="email"
+                            placeholder="usuario@ejemplo.com"
+                            [(ngModel)]="email"
+                            name="email"
+                        />
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Contraseña</mat-label>
+                        <input
+                            matInput
+                            type="password"
+                            [(ngModel)]="password"
+                            name="password"
+                            s
+                        />
+                    </mat-form-field>
+
+                    <div class="form-actions">
+                        <a routerLink="/forgot-password" class="accent-link"
+                            >¿Olvidaste tu contraseña?</a
+                        >
+                    </div>
+
+                    <button
+                        mat-raised-button
+                        class="accent-button login-button"
+                    >
+                        Iniciar Sesión
+                    </button>
+                </form>
+
+                <div class="divider">o</div>
+
+                <div class="social-buttons">
+                    <asl-google-signin-button
+                        type="standard"
+                        size="large"
+                        theme="filled_black"
+                        text="continue_with"
+                        shape="circle"
+                    >
+                    </asl-google-signin-button>
+                </div>
+
+                <p class="register-link">
+                    ¿No tienes una cuenta?
+                    <a routerLink="/register" class="accent-link"
+                        >Regístrate aquí</a
+                    >
+                </p>
+            </div>
+
+            <div class="welcome-column">
+                <img
+                    src="https://placehold.co/200x200/111827/533483?text=Agora&font=poppins"
+                    alt="Agora Logo"
+                    class="welcome-logo"
+                />
+                <h2>Conecta y Colabora sin Límites</h2>
+                <p>
+                    La plataforma todo-en-uno para comunicación de equipos,
+                    gestión de proyectos y productividad.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

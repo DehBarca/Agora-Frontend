@@ -1,0 +1,32 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <article class="modal-content" (click)="$event.stopPropagation()">
+        <div class="search-display">
+            <input type="text" />
+        </div>
+        <div class="users-display">
+            <ul class="users-list">
+                @for(user of users; track user._id){
+                <li class="user-item">
+                    <div class="user-checkbox">
+                        <mat-checkbox
+                            [checked]="selectedUsers.has(user._id!)"
+                            (click)="onUserClicked(user._id!, $event)"
+                        ></mat-checkbox>
+                    </div>
+                    <div class="user-avatar">
+                        <img
+                            [src]="
+                                user.profileImgUrl ||
+                                'https://placehold.co/40x40/533483/ffffff?text=A'
+                            "
+                            alt="user profile image"
+                        />
+                    </div>
+                    <span class="username">{{ user.username }}</span>
+                </li>
+                }
+            </ul>
+            <button (click)="addMembers($event)">Add new members</button>
+        </div>
+    </article>
+</div>
