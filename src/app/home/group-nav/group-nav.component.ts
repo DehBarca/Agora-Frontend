@@ -70,14 +70,21 @@ export class GroupNavComponent implements OnInit {
       directGroups.map((group: Group) =>
         this.groupService.getGroupMembers(group._id!).pipe(
           map((members: GetGroupMembersResponse[]) => {
-            const otherMember = members.find(
-              (member: GetGroupMembersResponse) =>
-                (member.userId._id ?? '') !== this.currentUserId
-            );
-
+            // Only show other user's name for 1-on-1 chats (exactly 2 members)
+            if (members.length === 2) {
+              const otherMember = members.find(
+                (member: GetGroupMembersResponse) =>
+                  (member.userId._id ?? '') !== this.currentUserId
+              );
+              return {
+                groupId: group._id!,
+                label: otherMember?.userId.username ?? group.topic,
+              };
+            }
+            // For groups with more than 2 members, always show the group topic
             return {
               groupId: group._id!,
-              label: otherMember?.userId.username ?? group.topic,
+              label: group.topic,
             };
           }),
           catchError(() => of({ groupId: group._id!, label: group.topic }))

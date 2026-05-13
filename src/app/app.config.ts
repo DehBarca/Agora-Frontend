@@ -8,6 +8,7 @@ import {
   SocialAuthServiceConfig,
   GoogleLoginProvider,
 } from '@abacritt/angularx-social-login';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,9 +22,7 @@ export const appConfig: ApplicationConfig = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '254477133617-3uspokauaenla1dj04fqtjgtdrpoap1o.apps.googleusercontent.com'
-            ),
+            provider: new GoogleLoginProvider(environment.googleClientId),
           },
         ],
         onError: (err) => {

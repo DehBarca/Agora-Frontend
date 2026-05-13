@@ -1,0 +1,324 @@
+<!-- Navigation Header -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <mat-icon class="logo-icon">chat</mat-icon>
+            <span>Agora</span>
+        </div>
+        <div class="nav-menu">
+            <a href="#features" class="nav-link">Funcionalidades</a>
+            <a href="#benefits" class="nav-link">Beneficios</a>
+            <a href="#product" class="nav-link">Producto</a>
+        </div>
+        <div class="nav-actions">
+            <button mat-button class="nav-login" routerLink="/login">
+                Iniciar sesión
+            </button>
+            <button
+                mat-raised-button
+                class="nav-register"
+                routerLink="/register"
+            >
+                Registrarse gratis
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-wrapper">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <mat-icon>check_circle</mat-icon>
+                <span>Todo tu equipo, en un solo lugar</span>
+            </div>
+            <h1 class="hero-title">
+                Centraliza tu <span class="highlight">comunicación</span> y
+                <span class="highlight">colaboración</span>
+            </h1>
+            <p class="hero-description">
+                Ágora integra chat, gestión de tareas y notas colaborativas en
+                una plataforma unificada. Deja de usar múltiples aplicaciones y
+                mejora la productividad de tu equipo.
+            </p>
+            <div class="hero-ctas">
+                <button
+                    mat-raised-button
+                    class="btn-primary"
+                    routerLink="/register"
+                >
+                    Comenzar gratis
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+                <button mat-button class="btn-secondary">
+                    <mat-icon>play_arrow</mat-icon>
+                    Ver demo
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <strong>10K+</strong>
+                    <span>Equipos activos</span>
+                </div>
+                <div class="stat">
+                    <strong>98%</strong>
+                    <span>Satisfacción</span>
+                </div>
+                <div class="stat">
+                    <strong>50%</strong>
+                    <span>Más productividad</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="image-placeholder">📱</div>
+        </div>
+    </div>
+</section>
+
+<!-- Problem/Solution Section -->
+<section class="problem-section">
+    <h2>El problema con usar múltiples herramientas</h2>
+    <p>
+        Los equipos pierden tiempo cambiando entre aplicaciones, buscando
+        información dispersa y sincronizando contexto constantemente.
+    </p>
+
+    <div class="comparison-cards">
+        <!-- Antes Card -->
+        <div class="comparison-card antes">
+            <div class="card-header">
+                <mat-icon class="error-icon">close</mat-icon>
+                <h3>Antes</h3>
+            </div>
+            <ul class="card-list">
+                <li>
+                    <mat-icon>close</mat-icon> Información fragmentada en 5+
+                    aplicaciones
+                </li>
+                <li>
+                    <mat-icon>close</mat-icon> Contexto perdido al cambiar de
+                    herramienta
+                </li>
+                <li>
+                    <mat-icon>close</mat-icon> Notificaciones dispersas y poco
+                    efectivas
+                </li>
+                <li>
+                    <mat-icon>close</mat-icon> Dificultad para coordinar tareas
+                    y conversaciones
+                </li>
+                <li>
+                    <mat-icon>close</mat-icon> Tiempo perdido buscando archivos
+                    y mensajes
+                </li>
+            </ul>
+        </div>
+
+        <!-- Con Ágora Card -->
+        <div class="comparison-card agora">
+            <div class="card-header">
+                <mat-icon class="success-icon">check_circle</mat-icon>
+                <h3>Con Ágora</h3>
+            </div>
+            <ul class="card-list">
+                <li>
+                    <mat-icon>check</mat-icon> Todo centralizado en una sola
+                    plataforma
+                </li>
+                <li>
+                    <mat-icon>check</mat-icon> Contexto completo: chat, tareas y
+                    notas juntos
+                </li>
+                <li>
+                    <mat-icon>check</mat-icon> Notificaciones inteligentes y
+                    priorizadas
+                </li>
+                <li>
+                    <mat-icon>check</mat-icon> Coordinación fluida entre equipos
+                </li>
+                <li><mat-icon>check</mat-icon> Búsqueda unificada y rápida</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section" id="features">
+    <h2>Todo lo que necesitas en un solo lugar</h2>
+    <p>
+        Funcionalidades diseñadas para mejorar la comunicación y productividad
+        de tu equipo.
+    </p>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon chat-icon">
+                <mat-icon>chat_bubble</mat-icon>
+            </div>
+            <h3>Chat en tiempo real</h3>
+            <p>
+                Conversaciones organizadas por grupos con mensajes directos,
+                canales temáticos y reacciones.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon task-icon">
+                <mat-icon>task_alt</mat-icon>
+            </div>
+            <h3>Gestión de tareas</h3>
+            <p>
+                Crea, asigna y da seguimiento a tareas directamente desde las
+                conversaciones.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon notes-icon">
+                <mat-icon>description</mat-icon>
+            </div>
+            <h3>Notas colaborativas</h3>
+            <p>
+                Documenta ideas y decisiones en tiempo real con edición
+                simultánea.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon groups-icon">
+                <mat-icon>group</mat-icon>
+            </div>
+            <h3>Gestión de grupos</h3>
+            <p>
+                Organiza equipos, proyectos y espacios de trabajo con permisos
+                personalizados.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon search-icon">
+                <mat-icon>search</mat-icon>
+            </div>
+            <h3>Búsqueda unificada</h3>
+            <p>
+                Encuentra mensajes, tareas, notas y archivos desde un único
+                buscador potente.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon integration-icon">
+                <mat-icon>extension</mat-icon>
+            </div>
+            <h3>Integraciones</h3>
+            <p>
+                Conecta con tus herramientas favoritas y automatiza flujos de
+                trabajo.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section with Purple Gradient -->
+<section class="cta-gradient-section">
+    <div class="cta-content">
+        <h2>Comienza a colaborar mejor hoy</h2>
+        <p>
+            Únete a miles de equipos que ya centralizaron su comunicación y
+            productividad con Ágora.
+        </p>
+
+        <div class="email-form">
+            <input
+                type="email"
+                placeholder="tu@email.com"
+                class="email-input"
+            />
+            <button
+                mat-raised-button
+                class="btn-primary-white"
+                routerLink="/register"
+            >
+                Comenzar gratis
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
+
+        <p class="form-note">
+            Sin tarjeta de crédito · Configuración en 2 minutos
+        </p>
+
+        <div class="benefits-list">
+            <span class="benefit-item"
+                ><mat-icon>check_circle</mat-icon> Gratis para equipos
+                pequeños</span
+            >
+            <span class="benefit-item"
+                ><mat-icon>check_circle</mat-icon> Soporte 24/7 en español</span
+            >
+            <span class="benefit-item"
+                ><mat-icon>check_circle</mat-icon> Actualización sin costo</span
+            >
+        </div>
+    </div>
+
+    <!-- Trust Section -->
+    <div class="trust-section">
+        <p>Confían en nosotros</p>
+        <div class="companies-logos">
+            <span>Universidad Nacional</span>
+            <span>TechStart Inc</span>
+            <span>Innovate Studio</span>
+            <span>Global Teams</span>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-column">
+            <div class="footer-logo">
+                <mat-icon>chat</mat-icon>
+                <span>Ágora</span>
+            </div>
+            <p>
+                La plataforma de colaboración que centraliza comunicación,
+                tareas y notas en un solo lugar.
+            </p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Producto</h4>
+            <ul>
+                <li><a href="#">Funcionalidades</a></li>
+                <li><a href="#">Beneficios</a></li>
+                <li><a href="#">Precios</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Recursos</h4>
+            <ul>
+                <li><a href="#">Documentación</a></li>
+                <li><a href="#">Guías</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h4>Empresa</h4>
+            <ul>
+                <li><a href="#">Acerca de</a></li>
+                <li><a href="#">Carreras</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 Ágora. Todos los derechos reservados.</p>
+    </div>
+</footer>

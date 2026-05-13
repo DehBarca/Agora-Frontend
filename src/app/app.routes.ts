@@ -14,9 +14,10 @@ import { RegisterComponent } from './auth/register/register.component';
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { LandingComponent } from './landing/landing.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: '', component: LandingComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     {

@@ -42,6 +42,8 @@ export class CreateGroupModalComponent implements OnInit {
   friends: FriendshipSelectable[] = []; //Hay que cambiarle el nombre porque al crear una community no necesariamente son friends
   communityId: string | undefined;
   friendAvatarImg = 'https://placehold.co/40x40/533483/ffffff?text=A';
+  isLoading = false;
+  errorMessage: string | null = null;
 
   constructor(
     private groupService: GroupService,
@@ -87,21 +89,33 @@ export class CreateGroupModalComponent implements OnInit {
   }
 
   createGroup(): void {
-      const group: Group = {
-        topic: this.topic,
-      };
-      if (this.communityId) {
-        group.communityId = this.communityId;
-      }
-      const friendIds: string[] = [...this.selectedFriends];
-      this.groupService.createGroup(group, friendIds).subscribe({
-        next: () => {
-          this.closeModal();
-        },
-        error: (err) => {
-          console.log('Error creating group:' + err);
-        },
-      });
+    this.errorMessage = null;
     
+    // Validation: topic is required
+    if (!this.topic || this.topic.trim().length === 0) {
+      this.errorMessage = 'El nombre del grupo es requerido';
+      return;
+    }
+
+    this.isLoading = true;
+    const group: Group = {
+      topic: this.topic.trim(),
+    };
+    if (this.communityId) {
+      group.communityId = this.communityId;
+    }
+    const friendIds: string[] = [...this.selectedFriends];
+    
+    this.groupService.createGroup(group, friendIds).subscribe({
+      next: () => {
+        console.log('✓ Group created successfully');
+        this.closeModal();
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Error creating group:', err);
+        this.errorMessage = err.error?.error || 'No se pudo crear el grupo. Intenta de nuevo.';
+      },
+    });
   }
 }

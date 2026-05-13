@@ -68,19 +68,26 @@ export class FriendsListComponent implements OnInit, OnDestroy {
     event?.stopPropagation();
 
     const friend = friendData.friendId;
-    if (!friend._id) return;
+    if (!friend._id) {
+      console.error('Friend ID is missing');
+      alert('Error: No se pudo obtener el ID del amigo');
+      return;
+    }
 
     this.groupService.findDirectChatWithUser(friend._id).subscribe({
       next: (existingGroup: Group | null) => {
         if (existingGroup) {
+          console.log('Existing direct chat found:', existingGroup);
           this.enterChat(existingGroup);
           return;
         }
 
+        console.log('No existing chat found, creating new one');
         this.createNewChat(friend._id!, friend.username);
       },
       error: (err: unknown) => {
         console.error('Error finding existing direct chat', err);
+        // Even if finding fails, try to create a new chat
         this.createNewChat(friend._id!, friend.username);
       }
     });
@@ -91,9 +98,15 @@ export class FriendsListComponent implements OnInit, OnDestroy {
         topic: username,
     };
 
+    console.log('Creating new chat with:', { friendId, username });
     this.groupService.createGroup(newGroup, [friendId]).subscribe({
         next: (group: Group) => {
-          console.log('Chat group created:', group);
+          console.log('Chat group created successfully:', group);
+          if (!group._id) {
+            console.error('Created group has no ID');
+            alert('Error: El grupo creado no tiene ID');
+            return;
+          }
           this.enterChat(group);
         },
         error: (err: unknown) => {
@@ -105,14 +118,27 @@ export class FriendsListComponent implements OnInit, OnDestroy {
 
   private enterChat(group: Group) {
     if(!group._id) {
-      console.error('Group ID not available');
+      console.error('Group ID not available, cannot navigate to chat');
+      alert('Error: No se pudo obtener el ID del chat');
       return;
     }
     this.groupService.updateGroupSummary(group);
-    console.log('Navigating to:', `/home/${group._id}`);
-    this.router.navigateByUrl(`/home/${group._id}`).then(
-      (success: boolean) => console.log('Navigation success:', success),
-      (error: unknown) => console.error('Navigation error:', error)
+    const chatUrl = `/home/${group._id}`;
+    console.log('Attempting to navigate to chat:', chatUrl);
+    
+    this.router.navigateByUrl(chatUrl).then(
+      (success: boolean) => {
+        if (success) {
+          console.log('✓ Navigation to chat successful');
+        } else {
+          console.error('✗ Navigation failed');
+          alert('No se pudo abrir el chat. Intenta de nuevo.');
+        }
+      },
+      (error: unknown) => {
+        console.error('Navigation error:', error);
+        alert('Error al abrir el chat');
+      }
     );
   }
 

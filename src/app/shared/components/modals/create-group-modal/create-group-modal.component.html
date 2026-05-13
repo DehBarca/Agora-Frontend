@@ -8,6 +8,12 @@
         </div>
 
         <div class="modal-body">
+            @if (errorMessage) {
+                <div class="error-message">
+                    <mat-icon>error</mat-icon>
+                    {{ errorMessage }}
+                </div>
+            }
             <div class="form-section">
                 <mat-form-field class="full-width">
                     <mat-label>Nombre del grupo</mat-label>
@@ -28,7 +34,10 @@
                 </mat-form-field>
 
                 <div class="members-section">
-                    <h4>Agregar miembros</h4>
+                    <h4>
+                        Agregar miembros
+                        <span class="optional">(Opcional)</span>
+                    </h4>
                     <mat-form-field class="full-width">
                         <mat-label>Buscar contactos</mat-label>
                         <input matInput placeholder="Escribe para buscar..." />
@@ -36,36 +45,42 @@
                     </mat-form-field>
 
                     <div class="contacts-list">
-                        @for(friend of friends; track friend._id){
-                        <div class="contact-item">
-                            <div class="contact-checkbox">
-                                <mat-checkbox
-                                    [(ngModel)]="friend.selected"
-                                    (change)="onFriendSelected(friend._id!)"
-                                ></mat-checkbox>
+                        @for (friend of friends; track friend._id) {
+                            <div class="contact-item">
+                                <div class="contact-checkbox">
+                                    <mat-checkbox
+                                        [(ngModel)]="friend.selected"
+                                        (change)="onFriendSelected(friend._id!)"
+                                    ></mat-checkbox>
+                                </div>
+                                <div class="contact-avatar">
+                                    <img [src]="friendAvatarImg" alt="Avatar" />
+                                </div>
+                                <span class="contact-name">{{
+                                    friend.username
+                                }}</span>
                             </div>
-                            <div class="contact-avatar">
-                                <img [src]="friendAvatarImg" alt="Avatar" />
-                            </div>
-                            <span class="contact-name">{{
-                                friend.username
-                            }}</span>
-                        </div>
                         }
                     </div>
                 </div>
             </div>
 
             <div class="modal-actions">
-                <button mat-button class="cancel-button" (click)="closeModal()">
+                <button
+                    mat-button
+                    class="cancel-button"
+                    (click)="closeModal()"
+                    [disabled]="isLoading"
+                >
                     Cancelar
                 </button>
                 <button
                     mat-raised-button
                     class="create-button"
                     (click)="createGroup()"
+                    [disabled]="isLoading"
                 >
-                    Crear Grupo
+                    {{ isLoading ? "Creando..." : "Crear Grupo" }}
                 </button>
             </div>
         </div>

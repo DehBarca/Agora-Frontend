@@ -55,6 +55,27 @@
     margin-bottom: 1.5rem;
 }
 
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 0.5rem;
+    color: #fca5a5;
+    font-size: 0.95rem;
+    animation: slideUp 0.3s ease-out;
+
+    mat-icon {
+        flex-shrink: 0;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
+}
+
 .full-width {
     width: 100%;
 }
@@ -68,6 +89,13 @@
     color: rgba(255, 255, 255, 0.9);
     font-size: 1rem;
     font-weight: 500;
+    
+    .optional {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 400;
+        margin-left: 0.5rem;
+    }
 }
 
 .contacts-list {
@@ -187,4 +215,15 @@
 
 .contacts-list::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

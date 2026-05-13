@@ -37,8 +37,9 @@ export class CreateCommunityModalComponent implements OnInit {
   communityName: string = '';
   selectedFriends: Set<string> = new Set();
   friends: FriendshipSelectable[] = [];
-
   friendAvatarImg = 'https://placehold.co/40x40/533483/ffffff?text=A';
+  isLoading = false;
+  errorMessage: string | null = null;
 
   constructor(
     private communityService: CommunityService,
@@ -66,16 +67,29 @@ export class CreateCommunityModalComponent implements OnInit {
   }
 
   createCommunity(): void {
+    this.errorMessage = null;
+    
+    // Validation: community name is required
+    if (!this.communityName || this.communityName.trim().length === 0) {
+      this.errorMessage = 'El nombre de la comunidad es requerido';
+      return;
+    }
+
+    this.isLoading = true;
     const community: Community = {
-      communityName: this.communityName,
+      communityName: this.communityName.trim(),
     };
     const friendIds: string[] = [...this.selectedFriends];
+    
     this.communityService.createCommunity(community, friendIds).subscribe({
       next: () => {
+        console.log('✓ Community created successfully');
         this.closeModal();
       },
       error: (err) => {
-        console.log('Error creating group: ', err);
+        this.isLoading = false;
+        console.error('Error creating community:', err);
+        this.errorMessage = err.error?.error || 'No se pudo crear la comunidad. Intenta de nuevo.';
       },
     });
   }
