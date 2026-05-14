@@ -256,11 +256,18 @@ export class VideoCallComponent implements OnInit, OnDestroy, AfterViewChecked {
                     }
 
                     this.callService.setInCall(true);
-                } catch (error) {
-                    console.error(
-                        '[VideoCall] Error configurando llamada:',
-                        error
-                    );
+                } catch (error: any) {
+                    const errorMsg = error instanceof Error ? error.message : String(error);
+                    console.error('[VideoCall] Error configurando llamada:', errorMsg);
+                    
+                    // Log detailed error info for debugging
+                    if (errorMsg.includes('Permiso denegado') || errorMsg.includes('NotAllowedError')) {
+                        console.warn('[VideoCall] El usuario debe permitir acceso a cámara/micrófono en los permisos del navegador');
+                    } else if (errorMsg.includes('No se encontró cámara') || errorMsg.includes('NotFoundError')) {
+                        console.warn('[VideoCall] No hay cámara disponible - la llamada continuará solo con audio');
+                    } else if (errorMsg.includes('siendo utilizado')) {
+                        console.warn('[VideoCall] Dispositivo de video en uso - cierra otras aplicaciones que usen la cámara');
+                    }
                 }
             });
 
