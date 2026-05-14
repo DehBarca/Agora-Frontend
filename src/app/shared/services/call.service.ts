@@ -336,25 +336,74 @@ export class CallService {
      * Obtiene el stream local (cámara y micrófono)
      */
     async getLocalStream(audio = true, video = true): Promise<MediaStream> {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                audio,
-                video: video
-                    ? {
-                          width: { ideal: 640 }, 
-                          height: { ideal: 480 }, 
-                          frameRate: { ideal: 24 },
-                      }
-                    : false,
-            });
+        // Try to get stream with video first
+        if (video) {
+            const constraints = {
+                audio: audio ? { echoCancellation: true, noiseSuppression: true } : false,
+                video: {
+                    width: { ideal: 640 }, 
+                    height: { ideal: 480 }, 
+                    frameRate: { ideal: 24 },
+                },
+            };
 
-            this.localStream$.next(stream);
-            console.log('[Call] Stream local obtenido');
-            return stream;
-        } catch (error) {
-            console.error('[Call] Error obteniendo stream local:', error);
-            throw error;
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                this.localStream$.next(stream);
+                console.log('[Call] Stream local obtenido con video (constraints ideales)');
+                return stream;
+            } catch (error: any) {
+                console.warn('[Call] Video with ideal constraints failed, trying relaxed constraints', error);
+                
+                // Try with relaxed video constraints
+                try {
+                    const relaxedConstraints = {
+                        audio: constraints.audio,
+                        video: { width: { min: 160, ideal: 320, max: 640 }, height: { min: 120, ideal: 240, max: 480 } },
+                    };
+                    const stream = await navigator.mediaDevices.getUserMedia(relaxedConstraints);
+                    this.localStream$.next(stream);
+                    console.log('[Call] Stream local obtenido con video (constraints relajados)');
+                    return stream;
+                } catch (relaxError: any) {
+                    console.warn('[Call] Video with relaxed constraints failed, trying minimal constraints', relaxError);
+                    
+                    // Try with minimal video constraints
+                    try {
+                        const minimalConstraints = {
+                            audio: constraints.audio,
+                            video: true,
+                        };
+                        const stream = await navigator.mediaDevices.getUserMedia(minimalConstraints);
+                        this.localStream$.next(stream);
+                        console.log('[Call] Stream local obtenido con video (constraints mínimos)');
+                        return stream;
+                    } catch (minimalError: any) {
+                        // Video failed completely, try audio-only as fallback
+                        console.warn('[Call] All video attempts failed, falling back to audio-only', minimalError);
+                    }
+                }
+            }
         }
+
+        // Fallback: try audio-only
+        if (audio) {
+            try {
+                const audioOnlyConstraints = {
+                    audio: { echoCancellation: true, noiseSuppression: true },
+                    video: false,
+                };
+                const stream = await navigator.mediaDevices.getUserMedia(audioOnlyConstraints);
+                this.localStream$.next(stream);
+                console.log('[Call] Stream local obtenido (solo audio - cámara no disponible)');
+                return stream;
+            } catch (audioError: any) {
+                console.error('[Call] Error obteniendo audio:', audioError);
+                throw new Error('No se pudo acceder al micrófono. Verifica los permisos de tu navegador.');
+            }
+        }
+
+        throw new Error('No se pudo obtener stream de audio o video.');
     }
 
     /**
