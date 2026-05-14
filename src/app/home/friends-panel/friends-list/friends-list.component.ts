@@ -74,23 +74,7 @@ export class FriendsListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.groupService.findDirectChatWithUser(friend._id).subscribe({
-      next: (existingGroup: Group | null) => {
-        if (existingGroup) {
-          console.log('Existing direct chat found:', existingGroup);
-          this.enterChat(existingGroup);
-          return;
-        }
-
-        console.log('No existing chat found, creating new one');
-        this.createNewChat(friend._id!, friend.username);
-      },
-      error: (err: unknown) => {
-        console.error('Error finding existing direct chat', err);
-        // Even if finding fails, try to create a new chat
-        this.createNewChat(friend._id!, friend.username);
-      }
-    });
+    this.createNewChat(friend._id, friend.username);
   }
 
   private createNewChat(friendId: string, username: string) {
