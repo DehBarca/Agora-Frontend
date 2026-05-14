@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
   isTopicLoading = false;
   isTopicSuccess = false;
 
-  myGroupMember: GroupMember = {} as GroupMember;
+  myGroupMember: GroupMember | null = null;
   constructor(
     private groupService: GroupService,
     private route: ActivatedRoute,
@@ -39,8 +39,12 @@ export class HeaderComponent implements OnInit {
       this.group = group;
       if (group._id) {
         this.groupService.getMyGroupMember(group._id).subscribe({
-          next: (response: GroupMember) => {
+          next: (response: GroupMember | null) => {
             this.myGroupMember = response;
+          },
+          error: (error) => {
+            console.error('Error obteniendo el rol del usuario en el grupo', error);
+            this.myGroupMember = null;
           },
         });
       }

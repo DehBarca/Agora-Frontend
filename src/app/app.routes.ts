@@ -9,6 +9,7 @@ import { PendingComponent } from './home/friends-panel/pending/pending.component
 import { FriendsListComponent } from './home/friends-panel/friends-list/friends-list.component';
 
 import { authGuard } from './shared/guards/auth.guard';
+import { groupMemberGuard } from './shared/guards/group-member.guard';
 
 import { RegisterComponent } from './auth/register/register.component';
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
@@ -82,6 +83,7 @@ export const routes: Routes = [
                 children: [
                     {
                         path: 'group/:id',
+                        canActivate: [groupMemberGuard],
                         loadComponent: () =>
                             import('./home/chat/chat.component').then(
                                 (m) => m.ChatComponent
@@ -91,6 +93,7 @@ export const routes: Routes = [
             },
             {
                 path: ':id',
+                canActivate: [groupMemberGuard],
                 loadComponent: () =>
                     import('./home/chat/chat.component').then(
                         (m) => m.ChatComponent

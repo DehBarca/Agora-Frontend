@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Group } from '../types/group';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, catchError, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { GroupMember } from '../types/group-member';
 import { TokenService } from './token.service';
 import { DeleteGroupResponse } from '../types/delete-group-response';
@@ -148,11 +148,19 @@ export class GroupService {
             .pipe(tap((response: Group[]) => this.myGroups.next(response)));
     }
 
-    getMyGroupMember(groupId: string): Observable<GroupMember> {
+    getMyGroupMember(groupId: string): Observable<GroupMember | null> {
         const headers = this.getHeaders();
         return this.httpClient.get<GroupMember>(
             `${environment.apiUrl}${this.endpnt}my-group-member/${groupId}`,
             { headers }
+        ).pipe(
+            catchError((error: HttpErrorResponse) => {
+                if (error.status === 404) {
+                    return of(null);
+                }
+
+                return throwError(() => error);
+            })
         );
     }
 

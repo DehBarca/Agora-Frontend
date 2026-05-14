@@ -38,7 +38,7 @@ export class GroupInfoModalComponent implements OnInit {
   isTopicLoading = false;
   isTopicSuccess = false;
 
-  myGroupMember: GroupMember = {} as GroupMember;
+  myGroupMember: GroupMember | null = null;
 
   memberOptionsPosition = { x: 0, y: 0 };
   selectedMember: GetGroupMembersResponse | null = null;
@@ -59,8 +59,12 @@ export class GroupInfoModalComponent implements OnInit {
     this.groupService.getGroupSummary().subscribe((group) => {
       this.group = group;
       this.groupService.getMyGroupMember(this.group._id!).subscribe({
-        next: (response: GroupMember) => {
+        next: (response: GroupMember | null) => {
           this.myGroupMember = response;
+        },
+        error: (error) => {
+          console.error('Error obteniendo el rol del usuario en el grupo', error);
+          this.myGroupMember = null;
         },
       });
     });
