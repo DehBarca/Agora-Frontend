@@ -83,8 +83,10 @@ export class LoginComponent implements OnInit {
   }
 
   onGoogleSignIn(user: SocialUser): void {
+    const googleAuthUrl = new URL('auth/google', environment.apiUrl).toString();
+
     this.httpClient
-      .post<AuthResponse>(`${environment.apiUrl}auth/google`, {
+      .post<AuthResponse>(googleAuthUrl, {
         idToken: user.idToken,
       })
       .subscribe({
