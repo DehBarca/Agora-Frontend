@@ -1,0 +1,88 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Crear Nuevo Grupo</h3>
+            <button mat-icon-button class="close-button" (click)="closeModal()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (errorMessage) {
+                <div class="error-message">
+                    <mat-icon>error</mat-icon>
+                    {{ errorMessage }}
+                </div>
+            }
+            <div class="form-section">
+                <mat-form-field class="full-width">
+                    <mat-label>Nombre del grupo</mat-label>
+                    <input
+                        matInput
+                        [(ngModel)]="topic"
+                        placeholder="Ingresa el nombre del grupo..."
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Descripción</mat-label>
+                    <textarea
+                        matInput
+                        placeholder="Describe el propósito del grupo..."
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+
+                <div class="members-section">
+                    <h4>
+                        Agregar miembros
+                        <span class="optional">(Opcional)</span>
+                    </h4>
+                    <mat-form-field class="full-width">
+                        <mat-label>Buscar contactos</mat-label>
+                        <input matInput placeholder="Escribe para buscar..." />
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+
+                    <div class="contacts-list">
+                        @for (friend of friends; track friend._id) {
+                            <div class="contact-item">
+                                <div class="contact-checkbox">
+                                    <mat-checkbox
+                                        [(ngModel)]="friend.selected"
+                                        (change)="onFriendSelected(friend._id!)"
+                                    ></mat-checkbox>
+                                </div>
+                                <div class="contact-avatar">
+                                    <img [src]="friendAvatarImg" alt="Avatar" />
+                                </div>
+                                <span class="contact-name">{{
+                                    friend.username
+                                }}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button
+                    mat-button
+                    class="cancel-button"
+                    (click)="closeModal()"
+                    [disabled]="isLoading"
+                >
+                    Cancelar
+                </button>
+                <button
+                    mat-raised-button
+                    class="create-button"
+                    (click)="createGroup()"
+                    [disabled]="isLoading"
+                >
+                    {{ isLoading ? "Creando..." : "Crear Grupo" }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

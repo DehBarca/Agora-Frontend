@@ -1,0 +1,68 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <article class="modal-content" (click)="$event.stopPropagation()">
+        
+   
+
+        <div class="profile-info">
+            <div class="avatar-container">
+                <img
+                    [src]="user.profileImgUrl || 'https://placehold.co/150x150/533483/ffffff?text=U'"
+                    alt="Avatar"
+                    class="profile-avatar"
+                />
+                <label class="edit-badge">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        (change)="editProfileImage($event)"
+                        hidden
+                    />
+                    <mat-icon>edit</mat-icon>
+                </label>
+            </div>
+
+            @if (!editingUsername) {
+                <h2 (click)="enableUsernameEdit()">
+                    {{ user.username }}
+                </h2>
+            } @else {
+                <input
+                    class="username-input"
+                    [(ngModel)]="newUsername"
+                    (blur)="submitUsernameEdit()"
+                    (keydown.enter)="submitUsernameEdit()"
+                    autofocus
+                    style="background: rgba(255,255,255,0.1); border:none; border-radius: 4px; color: white; text-align: center; font-size: 1.5rem; font-weight: 700; width: 100%; margin-bottom: 0.5rem;"
+                />
+            }
+
+            <p class="email">{{ user.email }}</p>
+            <p class="member-since">Member since: {{ user.createdAt | date:'MMM d, y' }}</p>
+        </div>
+
+        <div class="status-selector">
+            <button 
+                [class.active]="user.status === UserStatus.ONLINE"
+                (click)="setStatus(UserStatus.ONLINE)">
+                <span class="dot"></span> Online
+            </button>
+            <button 
+                [class.active]="user.status === UserStatus.WORKING"
+                [class.working]="user.status === UserStatus.WORKING"
+                (click)="setStatus(UserStatus.WORKING)">
+                <mat-icon style="font-size: 14px; width: 14px; height: 14px;">work</mat-icon> Working
+            </button>
+            <button 
+                [class.active]="user.status === UserStatus.OFFLINE"
+                [class.offline]="user.status === UserStatus.OFFLINE"
+                (click)="setStatus(UserStatus.OFFLINE)">
+                <span class="dot"></span> Offline
+            </button>
+        </div>
+
+        <button class="logout-btn" (click)="handleLogout()">
+            Cerrar sesión
+        </button>
+
+    </article>
+</div>

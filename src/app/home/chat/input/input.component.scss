@@ -1,0 +1,143 @@
+@use '../../../../colors' as *;
+
+.input-container {
+    width: 100%;
+    padding: 1rem 2rem; /* More padding on sides */
+    
+    form {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-end; /* Align to bottom for multiline */
+        background: rgba($color-bg-card, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 0.5rem;
+        border-radius: 24px; /* Capsule shape */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition: border-color 0.3s, box-shadow 0.3s;
+
+        &:focus-within {
+            border-color: rgba($color-primary-light, 0.5);
+            box-shadow: 0 4px 25px rgba($color-primary, 0.15);
+        }
+    }
+
+    /* Image upload button style */
+    .image-upload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: $color-text-secondary;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-bottom: 2px; /* Align with input text */
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: $color-text-main;
+        }
+    }
+
+    input {
+        flex: 1;
+        min-height: 40px;
+        max-height: 150px;
+        padding: 0.5rem 1rem;
+        resize: none;
+        overflow-y: auto;
+        word-wrap: break-word;
+        line-height: 1.5;
+        border: 1px solid $color-border;
+        border-radius: 8px;
+        font-size: 1rem;
+        background: rgba($color-bg-card, 0.1);
+        color: $color-text-main;
+        font-size: 0.95rem;
+        margin-bottom: 2px;
+
+        &:focus {
+            outline: none;
+        }
+        
+        &::placeholder {
+            color: rgba(255,255,255, 0.4);
+        }
+    }
+
+    button[type="submit"] {
+        width: 42px;
+        height: 42px;
+        border: none;
+        border-radius: 50%; /* Circle button */
+        background: linear-gradient(135deg, $color-secondary 0%, $color-primary 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        margin-left: 0.5rem;
+
+        mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            margin-right: -2px; /* Visual center correction */
+        }
+
+        &:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba($color-secondary, 0.4);
+        }
+
+        &:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: default;
+            transform: none;
+            box-shadow: none;
+        }
+    }
+
+    /* Image Preview floating above */
+    .image-preview {
+        position: absolute;
+        bottom: 80px; /* Float above input */
+        left: 2rem;
+        background: rgba(31, 41, 55, 0.9);
+        padding: 0.5rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.1);
+        display: flex;
+        align-items: flex-start;
+        animation: slideUp 0.3s ease-out;
+
+        img {
+            max-height: 100px;
+            border-radius: 8px;
+        }
+
+        button {
+            background: rgba(0,0,0,0.5);
+            width: 24px;
+            height: 24px;
+            margin-left: -12px;
+            margin-top: -12px;
+            
+            mat-icon {
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+                margin: 0;
+            }
+        }
+    }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

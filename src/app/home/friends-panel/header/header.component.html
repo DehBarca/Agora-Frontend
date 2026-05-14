@@ -1,0 +1,8 @@
+<nav>
+    <button (click)="navToList()">Friends</button>
+    <button (click)="navToAdd()">Add Friends</button>
+    <button (click)="navToPending()">Pending</button>
+    @if(!isAddFriendRoute()) {
+        <input type="text" placeholder="Buscar">
+    }
+</nav>

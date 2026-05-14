@@ -1,0 +1,22 @@
+<app-header></app-header>
+
+<aside class="sidebar-left">
+    <div class="groups-list">
+        @for (group of groups; track group._id) {
+            <div class="group-item" (click)="selectGroup(group)">
+                <div class="group-avatar">
+                    <img
+                        [src]="
+                            group.groupImgUrl ||
+                            'https://placehold.co/40x40/533483/ffffff?text=ED'
+                        "
+                        alt="group avatar"
+                    />
+                </div>
+                <span class="group-name">{{ getGroupDisplayName(group) }}</span>
+            </div>
+        } @empty {
+            <div>No groups</div>
+        }
+    </div>
+</aside>

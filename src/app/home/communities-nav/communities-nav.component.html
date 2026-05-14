@@ -1,0 +1,37 @@
+<nav class="communities-nav">
+    <ul>
+        <li [class.selected]="selectedCommunityId === ''" (click)="goToHome()">
+            <div class="community-btn">
+                <img
+                    src="https://placehold.co/40x40/533483/ffffff?text=DM"
+                    alt="DM"
+                />
+            </div>
+        </li>
+        @for(community of communities; track community._id){
+        <li
+            [class.selected]="community._id === selectedCommunityId"
+            (click)="selectCommunity(community)"
+        >
+            <div class="community-btn">
+                @if(community.communityImgUrl){
+                <img [src]="community.communityImgUrl" alt="Logo" />
+                }@else{
+                <span>{{ community.communityName[0] }}</span>
+                }
+            </div>
+        </li>
+        }
+        <li (click)="openCreateCommunity()">
+            <div class="community-btn">
+                <button mat-icon-button class="add-button">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+@if(isCreateCommunityOpen){
+    <app-create-community-modal></app-create-community-modal>
+}

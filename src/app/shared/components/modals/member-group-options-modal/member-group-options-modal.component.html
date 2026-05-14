@@ -1,0 +1,7 @@
+<div class="modal-overlay" (click)="close.emit()">
+    <nav class="modal-content" [ngStyle]="{ left: position.x + 'px', top: position.y + 'px', position: 'fixed' }" (click)="$event.stopPropagation()">
+        <button>User Info</button>
+        <button (click)="removeMember()">Remove member</button>
+        <button (click)="makeAdmin()">Make admin</button>
+    </nav>
+</div>

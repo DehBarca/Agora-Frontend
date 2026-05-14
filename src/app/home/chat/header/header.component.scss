@@ -1,0 +1,149 @@
+@use "../../../../colors" as *;
+header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1rem;
+    .group-image-container {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        .group-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: solid 2px $color-primary-light;
+            box-shadow: 0 0 10px rgba($color-primary, 0.3);
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+        .edit-groupImg-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            mat-icon {
+                font-size: 1.6rem;
+                pointer-events: none;
+            }
+        }
+        &:hover .edit-groupImg-btn {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .topic-edit-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 3px;
+        box-sizing: border-box;
+
+        h2 {
+            flex: 1;
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: $color-primary-light;
+            letter-spacing: 0.02em;
+        }
+        .topic-loader {
+            width: 24px;
+            height: 24px;
+        }
+
+        .topic-success {
+            color: $color-primary;
+            font-size: 1.5rem;
+        }
+        .topic-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: $color-primary-light;
+            padding: 0.4rem 0.4rem 0.4rem 1.2rem;
+            border-radius: 1rem;
+            transition: box-shadow 0.2s, border 0.2s;
+            border: 1px solid transparent;
+            &:hover {
+                cursor: not-allowed;
+            }
+            &.hovered {
+                cursor: pointer;
+                box-shadow: 0 0 0 2px $color-primary-light;
+                border: 1px solid $color-primary-light;
+                background: rgba($color-primary-light, 0.08);
+            }
+
+            .edit-icon,
+            .topic-loader,
+            .topic-success {
+                margin-left: 0.5rem;
+                vertical-align: middle;
+            }
+            .edit-icon {
+                font-size: 1.4rem;
+            }
+        }
+
+        &.editing .topic-display {
+            display: none;
+        }
+
+        .topic-input {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: $color-primary-light;
+            padding: 0.4rem 1.2rem;
+            border-radius: 1rem;
+            outline: none;
+            background: rgba($color-primary-light, 0.08);
+            width: 100%;
+            box-shadow: 0 0 0 2px $color-primary-light;
+        }
+    }
+
+    .chat-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+        button[mat-icon-button] {
+            border-radius: 50%;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba($color-primary, 0.08);
+            color: $color-text-secondary;
+
+            mat-icon {
+                font-size: 24px;
+            }
+
+            &:hover {
+                background-color: rgba($color-secondary, 0.18);
+                mat-icon {
+                    color: $color-primary-light;
+                }
+            }
+        }
+    }
+}

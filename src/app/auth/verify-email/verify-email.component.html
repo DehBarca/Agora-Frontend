@@ -1,0 +1,93 @@
+<div class="verify-container">
+    <div class="verify-card">
+        <div class="verify-content">
+            <!-- Icono de Email -->
+            <div class="email-icon">
+                <mat-icon>mail_outline</mat-icon>
+            </div>
+
+            <h1 class="verify-title">Verifica tu correo</h1>
+            
+            @if(!isVerified) {
+                <p class="verify-description">
+                    Hemos enviado un código de verificación a <strong>{{ email }}</strong>
+                </p>
+
+                <!-- Formulario de verificación -->
+                <form (ngSubmit)="verifyEmail()" class="verify-form">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Código de Verificación</mat-label>
+                        <input
+                            matInput
+                            [(ngModel)]="verificationCode"
+                            name="code"
+                            placeholder="Ingresa el código de 6 dígitos"
+                            maxlength="6"
+                            required
+                        />
+                        <mat-icon matPrefix>lock</mat-icon>
+                    </mat-form-field>
+
+                    <!-- Mensajes de error/éxito -->
+                    @if(errorMessage) {
+                        <div class="alert alert-error">
+                            <mat-icon>error</mat-icon>
+                            {{ errorMessage }}
+                        </div>
+                    }
+
+                    @if(successMessage) {
+                        <div class="alert alert-success">
+                            <mat-icon>check_circle</mat-icon>
+                            {{ successMessage }}
+                        </div>
+                    }
+
+                    <!-- Botón de verificar -->
+                    <button
+                        mat-raised-button
+                        class="accent-button verify-button"
+                        type="submit"
+                        [disabled]="isLoading || !verificationCode"
+                    >
+                        @if(isLoading) {
+                            <mat-spinner [diameter]="24"></mat-spinner>
+                        } @else {
+                            Verificar Email
+                        }
+                    </button>
+                </form>
+
+                <!-- Reenviar código -->
+                <div class="resend-section">
+                    <p>¿No recibiste el código?</p>
+                    <button
+                        mat-button
+                        class="resend-button"
+                        (click)="resendCode()"
+                        [disabled]="isResending"
+                    >
+                        @if(isResending) {
+                            <mat-spinner [diameter]="20"></mat-spinner>
+                        } @else {
+                            Reenviar código
+                        }
+                    </button>
+                </div>
+            } @else {
+                <!-- Estado verificado exitosamente -->
+                <div class="success-state">
+                    <mat-icon class="success-icon">check_circle</mat-icon>
+                    <h2>¡Email Verificado!</h2>
+                    <p>Tu cuenta ha sido verificada exitosamente.</p>
+                    <p class="redirect-message">Redirigiendo al login...</p>
+                </div>
+            }
+
+            <!-- Link para volver al login -->
+            <p class="login-link">
+                <a routerLink="/login" class="accent-link">Volver al login</a>
+            </p>
+        </div>
+    </div>
+</div>

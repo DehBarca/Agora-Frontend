@@ -1,0 +1,156 @@
+<!--
+  HTML ACTUALIZADO:
+  - Se cambia 'register-container' por 'login-container' para reutilizar el estilo.
+  - Se añade la estructura de 2 columnas: 'card-content', 'form-column' y 'welcome-column'.
+  - El botón de regresar se mueve dentro de 'form-column'.
+  - El 'card-header' se reemplaza por 'form-header' para coincidir con el login.
+  - Se añade la 'welcome-column' copiada del login.
+-->
+<div class="login-container">
+    <!-- Reutilizamos el contenedor del login -->
+    <div class="login-card glass-card">
+        <!-- Reutilizamos la tarjeta del login -->
+        <div class="card-content">
+            <!-- Columna del formulario -->
+            <div class="form-column">
+                <!-- Botón de Regresar (movido aquí) -->
+                <a
+                    routerLink="/login"
+                    class="back-button"
+                    mat-icon-button
+                    aria-label="Regresar al login"
+                >
+                    <mat-icon>arrow_back_ios_new</mat-icon>
+                </a>
+
+                <!-- Cabecera del formulario (estilo login) -->
+                <div class="form-header">
+                    <h1>Agora</h1>
+                    <p>Crea tu cuenta para empezar</p>
+                </div>
+
+                <!-- Formulario Reactivo -->
+                <form
+                    class="register-form"
+                    [formGroup]="registerForm"
+                    (ngSubmit)="onSubmit()"
+                >
+                    <mat-form-field>
+                        <mat-label>Nombre completo</mat-label>
+                        <input
+                            matInput
+                            type="text"
+                            placeholder="Tu nombre"
+                            formControlName="name"
+                        />
+                        <mat-error
+                            *ngIf="
+                                registerForm.get('name')?.hasError('required')
+                            "
+                            >Tu nombre es requerido</mat-error
+                        >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Correo electrónico</mat-label>
+                        <input
+                            matInput
+                            type="email"
+                            placeholder="usuario@ejemplo.com"
+                            formControlName="email"
+                        />
+                        <mat-error
+                            *ngIf="
+                                registerForm.get('email')?.hasError('required')
+                            "
+                            >El correo es requerido</mat-error
+                        >
+                        <mat-error
+                            *ngIf="registerForm.get('email')?.hasError('email')"
+                            >Correo no válido</mat-error
+                        >
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Contraseña</mat-label>
+                        <input
+                            matInput
+                            type="password"
+                            placeholder="Mínimo 8 caracteres"
+                            formControlName="password"
+                        />
+                        <mat-error
+                            *ngIf="
+                                registerForm
+                                    .get('password')
+                                    ?.hasError('required')
+                            "
+                            >La contraseña es requerida</mat-error
+                        >
+                        <mat-error
+                            *ngIf="
+                                registerForm
+                                    .get('password')
+                                    ?.hasError('minlength')
+                            "
+                            >Mínimo 8 caracteres</mat-error
+                        >
+                    </mat-form-field>
+
+                    <!-- Mensaje de Error -->
+                    <div *ngIf="errorMessage" class="error-message">
+                        {{ errorMessage }}
+                    </div>
+
+                    <!-- Botón de Submit -->
+                    <button
+                        mat-raised-button
+                        class="accent-button register-button"
+                        type="submit"
+                        [disabled]="registerForm.invalid || isLoading"
+                    >
+                        <span *ngIf="!isLoading">Crear Cuenta</span>
+                        <mat-spinner
+                            *ngIf="isLoading"
+                            [diameter]="30"
+                        ></mat-spinner>
+                    </button>
+                </form>
+
+                <div class="divider">o registrarse con</div>
+
+                <!-- Botones Sociales -->
+                <div class="social-buttons">
+                    <asl-google-signin-button
+                        type="standard"
+                        size="large"
+                        theme="filled_black"
+                        text="signup_with"
+                        shape="circle"
+                    >
+                    </asl-google-signin-button>
+                </div>
+
+                <!-- Link de Login (clase 'register-link' para estilo) -->
+                <p class="register-link">
+                    ¿Ya tienes una cuenta?
+                    <a routerLink="/login" class="accent-link">Inicia sesión</a>
+                </p>
+            </div>
+
+            <!-- Columna de bienvenida (IDÉNTICA A LA DE LOGIN) -->
+            <div class="welcome-column">
+                <img
+                    src="https://placehold.co/150x150/111827/533483?text=Agora&font=poppins"
+                    alt="Agora Logo"
+                    class="welcome-logo"
+                />
+                <h2>Conecta y Colabora sin Límites</h2>
+                <p>
+                    La plataforma todo-en-uno para comunicación de equipos,
+                    gestión de proyectos y productividad.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

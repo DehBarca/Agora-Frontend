@@ -1,0 +1,39 @@
+<div>
+    <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Buscar usuario..."
+        (keyup.enter)="onSearch()"
+    />
+    <button (click)="onSearch()">Buscar</button>
+</div>
+
+<ul class="users-list">
+    @for(user of users; track user._id){
+    <li class="user-card">
+        <div class="avatar-container">
+            @if(user.profileImgUrl) {
+            <img [src]="user.profileImgUrl" alt="avatar" class="avatar-img" />
+            } @else {
+            <img
+                [src]="
+                    'https://placehold.co/48x48/533483/ffffff?text=' +
+                    user.username.charAt(0).toUpperCase()
+                "
+                alt="avatar"
+                class="avatar-img"
+            />
+            }
+        </div>
+        <div class="user-info">
+            <span class="user-name">{{ user.username }}</span>
+            <span class="user-email">{{ user.email }}</span>
+        </div>
+        <button class="add-button" (click)="sendFriendRequest(user._id!)">
+            Agregar
+        </button>
+    </li>
+    } @empty {
+    <li class="no-users">No users found</li>
+    }
+</ul>

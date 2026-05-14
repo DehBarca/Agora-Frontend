@@ -1,0 +1,174 @@
+@use "../../../../colors" as *;
+:host {
+    margin-top: auto;
+}
+.messages-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.message-card {
+    background: rgba($color-bg-card, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 18px 18px 18px 4px;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    color: $color-text-main;
+    display: flex;
+    flex-direction: column;
+    max-width: 75%;
+    width: fit-content;
+    align-self: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    transition: transform 0.2s;
+
+    &:hover {
+        background: rgba($color-bg-card, 0.8);
+    }
+
+    .message-header {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: $color-primary-light;
+        margin-bottom: 0.25rem;
+        opacity: 0.9;
+    }
+
+    .message-text {
+        font-size: 1rem;
+        word-break: break-word;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.5;
+    }
+
+    img {
+        max-width: 100%;
+        border-radius: 12px;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .message-footer {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 4px;
+        align-self: flex-end;
+    }
+
+    /* Estilos para mensajes PROPIOS */
+    &.my-message {
+        background: linear-gradient(
+            135deg,
+            rgba($color-primary, 0.9) 0%,
+            rgba($color-secondary, 0.9) 100%
+        );
+        align-self: flex-end;
+        border: none;
+        border-radius: 18px 18px 4px 18px;
+        box-shadow: 0 4px 15px rgba($color-primary, 0.2);
+
+        .message-header {
+            display: none;
+        }
+
+        .message-text {
+            color: #ffffff;
+        }
+
+        .message-footer {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        &.event-message {
+            background: linear-gradient(
+                135deg,
+                rgba($color-primary, 0.95) 0%,
+                rgba($color-secondary, 0.95) 100%
+            );
+            .event-card .event-icon {
+                background: rgba(255, 255, 255, 0.2);
+                mat-icon {
+                    color: white;
+                }
+            }
+        }
+    }
+
+    /* Estilo especial para EVENTOS */
+    &.event-message {
+        background: rgba($color-primary, 0.15);
+        border: 1px solid rgba($color-primary-light, 0.3);
+        width: 100%;
+        min-width: 280px;
+
+        .event-card {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.5rem 0;
+
+            .event-icon {
+                background: $color-bg-main;
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid rgba($color-primary-light, 0.2);
+                mat-icon {
+                    color: $color-primary-light;
+                    font-size: 24px;
+                }
+            }
+
+            .event-details {
+                flex: 1;
+                h4 {
+                    margin: 0 0 0.25rem 0;
+                    color: white;
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .event-date {
+                    margin: 0 0 0.5rem 0;
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 0.85rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    mat-icon {
+                        font-size: 16px;
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+
+                .join-btn {
+                    background: $color-primary;
+                    border: none;
+                    color: white;
+                    padding: 0.35rem 1rem;
+                    border-radius: 6px;
+                    font-size: 0.8rem;
+                    cursor: pointer;
+                    font-weight: 500;
+                    transition: background 0.2s;
+                    &:hover {
+                        background: $color-primary-light;
+                    }
+                }
+            }
+        }
+    }
+}

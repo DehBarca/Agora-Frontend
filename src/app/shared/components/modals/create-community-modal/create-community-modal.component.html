@@ -1,0 +1,95 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3>Crear Nueva Comunidad</h3>
+            <button mat-icon-button class="close-button" (click)="closeModal()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            @if (errorMessage) {
+                <div class="error-message">
+                    <mat-icon>error</mat-icon>
+                    {{ errorMessage }}
+                </div>
+            }
+            <div class="form-section">
+                <mat-form-field class="full-width">
+                    <mat-label>Nombre de la Comunidad</mat-label>
+                    <input
+                        matInput
+                        [(ngModel)]="communityName"
+                        placeholder="Ingresa el nombre de la communidad..."
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                    <mat-label>Descripción</mat-label>
+                    <textarea
+                        matInput
+                        placeholder="Describe el propósito de la communidad..."
+                        rows="3"
+                    ></textarea>
+                </mat-form-field>
+
+                <div class="members-section">
+                    <h4>
+                        Agregar miembros
+                        <span class="optional">(Opcional)</span>
+                    </h4>
+                    <mat-form-field class="full-width">
+                        <mat-label>Buscar contactos</mat-label>
+                        <input matInput placeholder="Escribe para buscar..." />
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+
+                    <div class="contacts-list">
+                        @for (friendship of friends; track friendship._id) {
+                            <div class="contact-item">
+                                <div class="contact-checkbox">
+                                    <mat-checkbox
+                                        [(ngModel)]="friendship.selected"
+                                        (change)="
+                                            onFriendSelected(
+                                                friendship.friendId._id!
+                                            )
+                                        "
+                                    ></mat-checkbox>
+                                </div>
+                                <div class="contact-avatar">
+                                    <img
+                                        [src]="friendAvatarImg"
+                                        alt="friendship.friendId"
+                                    />
+                                </div>
+                                <span class="contact-name">{{
+                                    friendship.friendId.username
+                                }}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button
+                    mat-button
+                    class="cancel-button"
+                    (click)="closeModal()"
+                    [disabled]="isLoading"
+                >
+                    Cancelar
+                </button>
+                <button
+                    mat-raised-button
+                    class="create-button"
+                    (click)="createCommunity()"
+                    [disabled]="isLoading"
+                >
+                    {{ isLoading ? "Creando..." : "Crear Comunidad" }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<ul #messagesList class="messages-list">
+    @for(message of messages; track message._id){ @if($last){
+    <li
+        class="message-card"
+        [class.my-message]="message.username === currentUser"
+        [class.event-message]="message.type === 'event'"
+        #lastRef
+    >
+        @if($index === 0 || message.username !== messages[$index -1].username){
+        <header class="message-header">
+            <span class="user">{{ message.username }}</span>
+        </header>
+        } @if(message.imageUrl){
+        <img [src]="message.imageUrl" alt="Image" />
+        }
+        <div class="message-text">
+            {{ message.text }}
+        </div>
+        <footer class="message-footer">
+            <span class="message-date">{{
+                message.createdAt | date : "shortTime"
+            }}</span>
+        </footer>
+    </li>
+    } @else {
+    <li
+        class="message-card"
+        [class.my-message]="message.username === currentUser"
+    >
+        @if($index === 0 || message.username !== messages[$index -1].username){
+
+        <div class="message-header">
+            <span class="user">{{ message.username }}</span>
+        </div>
+        } @if(message.type === 'event' && message.eventData) {
+        <div class="event-card">
+            <div class="event-icon">
+                <mat-icon>event</mat-icon>
+            </div>
+            <div class="event-details">
+                <h4>{{ message.eventData.title }}</h4>
+                <p class="event-date">
+                    <mat-icon>schedule</mat-icon>
+                    {{ message.eventData.date | date : "medium" }}
+                </p>
+                <button class="join-btn">Asistiré</button>
+            </div>
+        </div>
+        } @else if(message.imageUrl){
+        <img [src]="message.imageUrl" alt="Image" />
+        }
+        <div class="message-text">
+            {{ message.text }}
+        </div>
+        <footer class="message-footer">
+            <span class="message-date">{{
+                message.createdAt | date : "shortTime"
+            }}</span>
+        </footer>
+    </li>
+    } }
+</ul>

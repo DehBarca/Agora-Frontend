@@ -1,0 +1,43 @@
+name: Deploy Frontend to S3
+on:
+    push:
+        branches:
+            - main
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            # 1. Clonar el repositorio
+            - name: Checkout repository
+              uses: actions/checkout@v3
+            # 2. Configurar Node.js
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "22"
+                  cache: "npm"
+            # 3. Instalar dependencias
+            - name: Install dependencies
+              run: npm ci
+            # 4. Build de producción
+            - name: Build Angular app
+              run: npm run build -- --configuration=production
+            # 5. Configurar credenciales de AWS
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-2
+            # 6. Sincronizar archivos con S3
+            - name: Deploy to S3
+              run: |
+                  aws s3 sync dist/agora-frontend/browser/ s3://${{ secrets.S3_BUCKET_NAME }}/ --delete
+            # 7. Invalidar caché de CloudFront
+            - name: Invalidate CloudFront cache
+              run: |
+                  aws cloudfront create-invalidation \
+                    --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+                    --paths "/*"
+            - name: Deployment completed
+              run: echo "✅ Frontend deployed successfully to S3 and CloudFront cache invalidated"

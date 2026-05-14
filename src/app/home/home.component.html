@@ -1,0 +1,88 @@
+<div class="home-container">
+    <app-header></app-header>
+    <div class="home-content">
+        <app-communities-nav></app-communities-nav>
+        <div class="side-nav">
+
+
+                <div class="nav-section friends-section">
+                    <div class="section-header" (click)="navToFriends()">
+                        <h3>Friends</h3>
+                    </div>
+                </div>
+
+
+            <div class="nav-section groups-section">
+                <app-group-nav></app-group-nav>
+            </div>
+        </div>
+        <main class="main-content">
+            <div class="content-body">
+                <router-outlet></router-outlet>
+            </div>
+        </main>
+    </div>
+</div>
+
+@if(isCreateGroupOpen){
+<app-create-group-modal></app-create-group-modal>
+} @if(isCalendarOpen){
+<app-calendar-modal></app-calendar-modal>
+} @if(isMyUserOpen){
+<app-myuser-modal></app-myuser-modal>
+} @if(isCallOpen){
+<div
+    class="video-call-modal"
+    [ngStyle]="{
+        top: modalTop + 'px',
+        left: modalLeft + 'px',
+        width: modalWidth + 'px',
+        height: modalHeight + 'px'
+    }"
+    (mousedown)="bringToFront()"
+    [style.zIndex]="modalZIndex"
+>
+    <div
+        class="resize-handle resize-handle-corner resize-handle-tl"
+        (mousedown)="startResize($event, 'top-left')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-corner resize-handle-tr"
+        (mousedown)="startResize($event, 'top-right')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-corner resize-handle-bl"
+        (mousedown)="startResize($event, 'bottom-left')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-corner resize-handle-br"
+        (mousedown)="startResize($event, 'bottom-right')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-top"
+        (mousedown)="startResize($event, 'top')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-bottom"
+        (mousedown)="startResize($event, 'bottom')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-left"
+        (mousedown)="startResize($event, 'left')"
+    ></div>
+    <div
+        class="resize-handle resize-handle-right"
+        (mousedown)="startResize($event, 'right')"
+    ></div>
+
+    <div class="modal-header" (mousedown)="startDrag($event)">
+        <span>Videollamada. Group: {{group.topic}}</span>
+        <button (click)="closeCall()">cancel</button>
+    </div>
+
+    <app-video-call
+    [group]="group"
+    [roomId]="group._id || ''"
+    ></app-video-call>
+</div>
+}
