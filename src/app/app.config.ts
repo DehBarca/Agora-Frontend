@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.googleClientId),
+            provider: new GoogleLoginProvider('1047061455988-meqjg26ejfk132sk72e16bvpks1r40mf.apps.googleusercontent.com'),
           },
         ],
         onError: (err) => {
